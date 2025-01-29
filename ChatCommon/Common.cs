@@ -3,6 +3,10 @@ using System.IO;
 using System.Security.Cryptography;
 
 namespace ChatCommon {
+    public class Defaults {
+        public const int Port = 11299;
+    }
+
     public enum ChatMsg {
         Update_VersionInfo,
         Update_Load,

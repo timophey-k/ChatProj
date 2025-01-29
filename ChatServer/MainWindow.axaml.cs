@@ -22,7 +22,7 @@ namespace ChatServer
             //notifyIcon1.Icon = System.Drawing.SystemIcons.Application;
 
             IPAddress ipAddress = GetLocalIPAddress();
-            endPoint = new IPEndPoint(ipAddress, 11299);
+            endPoint = new IPEndPoint(ipAddress, Defaults.Port);
 
             this.Title = ipAddress.ToString();
 

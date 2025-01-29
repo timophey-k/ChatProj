@@ -31,7 +31,7 @@ namespace ChatLauncher
 
             btnEnter.Click += (s, e) =>
             {
-                var endPoint = new IPEndPoint(IPAddress.Parse(tbServerAddress.Text), 11299);
+                var endPoint = new IPEndPoint(IPAddress.Parse(tbServerAddress.Text), Defaults.Port);
                 if (Client.Connect(endPoint))
                 {
                     PrintStatus("Connecting...");
