@@ -9,6 +9,8 @@ using NetworkFramework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using Avalonia.Data.Converters;
 
 namespace ChatClient;
 
@@ -27,7 +29,6 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         listBoxMembers.DisplayMemberBinding = new Binding("Name");
-        listMessages.DisplayMemberBinding = new Binding("Text");
         listMessages.ItemsSource = _messages;
         listMessages.AutoScrollToSelectedItem = true;
 
@@ -124,5 +125,27 @@ public partial class MainWindow : Window
         msg.PushStr(txt);
         _client.Send(msg);
         textEdit1.Text = null;
+    }
+}
+
+public class MyMessageBackgroundConverter : MarkupExtension, IMultiValueConverter
+{
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+
+    public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (values.Count == 3 && values[0] is bool b)
+        {
+            if (b)
+            {
+                return values[2];
+            }
+            else return values[1];
+        }
+
+        return AvaloniaProperty.UnsetValue;
     }
 }
