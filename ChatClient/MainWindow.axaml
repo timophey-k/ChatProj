@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:chatCommon="clr-namespace:ChatCommon;assembly=ChatCommon"
+        xmlns:chatClient="clr-namespace:ChatClient"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChatClient.MainWindow"
         Title="MainWindow">
@@ -13,8 +15,30 @@
 			<ListBox.Styles>
 				<Style Selector="ListBoxItem">
 					<Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+					<Setter Property="Template">
+						<ControlTemplate TargetType="ListBoxItem">
+							<ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"></ContentPresenter>
+						</ControlTemplate>
+					</Setter>
 				</Style>
 			</ListBox.Styles>
+			<ListBox.ItemTemplate>
+				<DataTemplate x:CompileBindings="False" x:DataType="chatCommon:ChatMessage">
+					<Border CornerRadius="8" Padding="8" Margin="8">
+						<Border.Background>
+							<MultiBinding Converter="{chatClient:MyMessageBackgroundConverter}">
+								<Binding Path="MyMessage"></Binding>
+								<DynamicResourceExtension ResourceKey="ButtonBackground"/>
+								<DynamicResourceExtension ResourceKey="AccentButtonBackground"/>
+							</MultiBinding>
+						</Border.Background>
+						<StackPanel>
+							<TextBlock Foreground="{DynamicResource ButtonForeground}" Text="{Binding Name}"></TextBlock>
+							<TextBlock Foreground="{DynamicResource ButtonForeground}" Text="{Binding Text}"></TextBlock>	
+						</StackPanel>
+					</Border>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
 		</ListBox>
 	</DockPanel>
 </Window>
