@@ -63,6 +63,13 @@ public partial class MainWindow : Window
         _client.Send(msgEnter);
     }
 
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        timerUpdate?.Stop();
+        _client?.Disconnect();
+    }
+
     void OnMessage(Msg msg)
     {
         var msgType = (ChatMsg)msg.Id;
