@@ -52,9 +52,9 @@ public partial class MainWindow : Window
     {
         base.OnLoaded(e);
         timerUpdate.Tick += (s, ea) => {
-            while (!_client.Incoming.IsEmpty())
+            while (_client.Incoming.TryPopFront(out var msg))
             {
-                OnMessage(_client.Incoming.PopFront());
+                OnMessage(msg);
             }
         };
         timerUpdate.Start();

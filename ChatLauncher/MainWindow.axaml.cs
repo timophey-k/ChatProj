@@ -64,9 +64,9 @@ namespace ChatLauncher
 
             timerUpdate.Interval = TimeSpan.FromMicroseconds(100);
             timerUpdate.Tick += (s, ea) => {
-                while (!Client.Incoming.IsEmpty())
+                while (Client.Incoming.TryPopFront(out var msg))
                 {
-                    OnMessage(Client.Incoming.PopFront());
+                    OnMessage(msg);
                 }
             };
 

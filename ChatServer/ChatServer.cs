@@ -22,8 +22,7 @@ namespace ChatServer {
         }
 
         protected override void OnMessage(Msg msg) {
-            while(!_lostIds.IsEmpty()) {
-                int lostId = _lostIds.PopFront();
+            while(_lostIds.TryPopFront(out var lostId)) {
                 if(_members.ContainsKey(lostId)) {
                     _members.Remove(lostId);
                     Msg msgRem = (int)ChatMsg.Chat_RemoveMember;
